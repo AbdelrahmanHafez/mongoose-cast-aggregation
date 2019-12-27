@@ -6,7 +6,10 @@ A mongoose plugin that casts aggregation pipelines whenever possible.
 **At the time of this writing, the package is not published on NPM yet. For testing purposes, clone the repo locally and use it. The package will be published on NPM soon.**
 
 
-run `npm install mongoose-cast-aggregation`
+run
+```
+npm install mongoose-cast-aggregation
+```
 
 Add the plugin into your schema:
 ```js
@@ -33,7 +36,10 @@ Planning to make it backwards-comptaible in the future.
 
 ### Installing
 
-run `npm install mongoose-cast-aggregation-match`
+run 
+```
+npm install mongoose-cast-aggregation-match
+```
 
 Add the plugin:
 
@@ -52,34 +58,30 @@ discountSchema.plugin(castAggregation);
 const Discount = mongoose.model('Discount', discountSchema);
 ```
 
-Now mongoose will cast the $match stage whenever possible. It casts the $match stage as long as no stage before it changed the resulting document shape from the original schema (e.g. $sort, $skip, and $match).
+Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$sort`, `$skip`, and `$match`).
 
 ```js
-async function run(){
-  const discounts = await Discount.aggregate([
-    // Will cast the amount to a number, and the timestamp to a date object
-    { $match: { expiresAt: { $lt: Date.now() }, amount: '20' } }
-  ]);
-}
+const discounts = await Discount.aggregate([
+  // Will cast the amount to a number, and the timestamp to a date object
+  { $match: { expiresAt: { $lt: Date.now() }, amount: '20' } }
+]);
 ```
 
 This works as well:
 
 ```js
-async function run(){
-  const discounts = await Discount.aggregate([
-    { $sort: { amount:-1 } },
-    { $skip: 20 },
-    // Will cast the stage below to a date object, because the document shape hasn't changed yet.
-    { $match: { expiresAt: { $lt: Date.now() } } },
+const discounts = await Discount.aggregate([
+  { $sort: { amount:-1 } },
+  { $skip: 20 },
+  // Will cast the stage below to a date object, because the document shape hasn't changed yet.
+  { $match: { expiresAt: { $lt: Date.now() } } },
 
-    // Will cast this one to numbers as well.
-    { $match: { amount: { $gt: '80', $lt: '200' } } },
-    { $project: { amountInUSD: '$amount' } },
+  // Will cast this one to numbers as well.
+  { $match: { amount: { $gt: '80', $lt: '200' } } },
+  { $project: { amountInUSD: '$amount' } },
 
-    // Will ***NOT*** cast this one, because we used a stage that changed the shape of the document.
-    // so using the string '100' here will not work, will have to use the correct type of number in order to get results.
-    { $match: { amountInUSD: { $gt: 100 } } }
-  ]);
-}
+  // Will ***NOT*** cast this one, because we used a stage that changed the shape of the document.
+  // so using the string '100' here will not work, will have to use the correct type of number in order to get results.
+  { $match: { amountInUSD: { $gt: 100 } } }
+]);
 ```
