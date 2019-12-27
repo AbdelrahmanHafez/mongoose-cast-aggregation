@@ -1,0 +1,23 @@
+{
+  "name": "mongoose-cast-aggregation",
+  "version": "0.0.1",
+  "description": "A mongoose plugin that casts $match at aggregation pipelines whenever possible",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "mongoose",
+    "cast",
+    "aggregation",
+    "query",
+    "match",
+    "filter"
+  ],
+  "author": "Abdelrahman Hafez",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^6.2.2",
+    "mongoose": "^5.8.3"
+  }
+}
