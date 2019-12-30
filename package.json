@@ -1,6 +1,6 @@
 {
   "name": "mongoose-cast-aggregation",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A mongoose plugin that casts $match at aggregation pipelines whenever possible",
   "main": "index.js",
   "scripts": {
