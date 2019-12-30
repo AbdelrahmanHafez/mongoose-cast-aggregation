@@ -38,7 +38,7 @@ Planning to make it backwards-comptaible in the future.
 
 run 
 ```
-npm install mongoose-cast-aggregation-match
+npm install mongoose-cast-aggregation
 ```
 
 Add the plugin:
