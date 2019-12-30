@@ -15,7 +15,7 @@ function aggregationCastPlugin (schema) {
       const projectionHasChanged = !pipelinesThatDoNotAffectProjection.includes(stageName);
       if (projectionHasChanged) return next();
 
-      if (stageName === '$match') pipeline[i][stageName] = castFilter(this._model, pipeline[i][stageName]);
+      if (stageName === '$match') stage[stageName] = castFilter(this._model, stage[stageName]);
     }
 
     next();
