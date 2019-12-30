@@ -1,0 +1,6 @@
+.eslintrc
+.eslintignore
+node_modules
+test
+package.json
+README.md
