@@ -16,6 +16,13 @@
   ],
   "author": "Abdelrahman Hafez",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbdelrahmanHafez/mongoose-cast-aggregation/issues/new"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/AbdelrahmanHafez/mongoose-cast-aggregation.git"
+  },
   "devDependencies": {
     "mocha": "^6.2.2",
     "mongoose": "^5.8.3"

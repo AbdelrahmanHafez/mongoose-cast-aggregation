@@ -3,10 +3,8 @@
 A mongoose plugin that casts aggregation pipelines whenever possible.
 
 ## Getting Started
-**At the time of this writing, the package is not published on NPM yet. For testing purposes, clone the repo locally and use it. The package will be published on NPM soon.**
 
-
-run
+Run
 ```
 npm install mongoose-cast-aggregation
 ```
