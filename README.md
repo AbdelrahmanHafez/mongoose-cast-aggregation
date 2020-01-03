@@ -56,7 +56,7 @@ discountSchema.plugin(castAggregation);
 const Discount = mongoose.model('Discount', discountSchema);
 ```
 
-Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$sort`, `$skip`, and `$match`).
+Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, and `$sample`).
 
 ```js
 const discounts = await Discount.aggregate([
