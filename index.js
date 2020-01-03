@@ -1,7 +1,7 @@
 const { Query } = require('mongoose');
 const mongooseQuery = new Query();
 
-const pipelinesThatDoNotAffectProjection = Object.freeze(['$match', '$sort', '$skip']);
+const stagesThatDoNotAffectProjection = Object.freeze(['$match', '$limit', '$sort', '$skip', '$sample']);
 
 function aggregationCastPlugin (schema) {
   schema.pre('aggregate', function (next) {
@@ -12,7 +12,7 @@ function aggregationCastPlugin (schema) {
       const stage = pipeline[i];
       const stageName = getStageName(stage);
 
-      const projectionHasChanged = !pipelinesThatDoNotAffectProjection.includes(stageName);
+      const projectionHasChanged = !stagesThatDoNotAffectProjection.includes(stageName);
       if (projectionHasChanged) return next();
 
       if (stageName === '$match') stage[stageName] = castFilter(this._model, stage[stageName]);
