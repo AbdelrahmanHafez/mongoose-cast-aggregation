@@ -4,7 +4,7 @@ A mongoose plugin that casts aggregation pipelines whenever possible.
 
 ## Getting Started
 
-Run
+Run:
 ```
 npm install mongoose-cast-aggregation
 ```
