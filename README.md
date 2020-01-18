@@ -9,22 +9,13 @@ Run
 npm install mongoose-cast-aggregation
 ```
 
-Add the plugin into your schema:
+Inject the plugin into mongoose:
 ```js
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 const castAggregation = require('mongoose-cast-aggregation');
 
-const discountSchema = new Schema({
-  expiresAt: Date,
-  amount: Number
-});
-
-discountSchema.plugin(castAggregation);
-
-const Discount = mongoose.model('Discount', discountSchema);
+mongoose.plugin(castAggregation);
 ```
-
 
 ### Prerequisites
 
@@ -34,24 +25,28 @@ Planning to make it backwards-comptaible in the future.
 
 ### Installing
 
-run 
+Run:
 ```
 npm install mongoose-cast-aggregation
 ```
 
-Add the plugin:
+Inject the plugin into mongoose:
+```js
+const mongoose = require('mongoose');
+const castAggregation = require('mongoose-cast-aggregation');
 
+mongoose.plugin(castAggregation); 
+```
+
+Create a mongoose model after injecting the plugin:
 ```js
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const castAggregation = require('mongoose-cast-aggregation');
 
 const discountSchema = new Schema({
   expiresAt: Date,
   amount: Number
 });
-
-discountSchema.plugin(castAggregation);
 
 const Discount = mongoose.model('Discount', discountSchema);
 ```
