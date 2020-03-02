@@ -33,16 +33,12 @@ npm install mongoose-cast-aggregation
 Inject the plugin into mongoose:
 ```js
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const castAggregation = require('mongoose-cast-aggregation');
 
 mongoose.plugin(castAggregation); 
-```
 
-Create a mongoose model after injecting the plugin:
-```js
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
-
+// Later...
 const discountSchema = new Schema({
   expiresAt: Date,
   amount: Number
