@@ -41,7 +41,7 @@ describe('aggregationCastPlugin', function () {
     assert.equal(usersFromAggregation[0]._id.toString(), user._id.toString());
   });
 
-  describe('casts $match when it comes after a stage that changes projection', () => {
+  describe('casts $match when it comes after a stage that does not change projection', () => {
 
     it('$sort', async function () {
       // Arrange
