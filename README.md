@@ -4,26 +4,6 @@ A mongoose plugin that casts aggregation pipelines whenever possible.
 
 ## Getting Started
 
-Run:
-```
-npm install mongoose-cast-aggregation
-```
-
-Inject the plugin into mongoose:
-```js
-const mongoose = require('mongoose');
-const castAggregation = require('mongoose-cast-aggregation');
-
-mongoose.plugin(castAggregation);
-```
-
-### Prerequisites
-
-The plugin is tested on Node 12.13.0, MongoDB 4.2, and mongoose v5.8.3.
-Planning to make it backwards-comptaible in the future.
-
-
-### Installing
 
 Run:
 ```
