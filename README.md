@@ -17,19 +17,19 @@ const { Schema } = mongoose;
 const castAggregation = require('mongoose-cast-aggregation');
 
 mongoose.plugin(castAggregation); 
+```
 
-// Later...
+
+Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, and `$sample`).
+```js
+// After injecting the plugin
 const discountSchema = new Schema({
   expiresAt: Date,
   amount: Number
 });
 
 const Discount = mongoose.model('Discount', discountSchema);
-```
 
-Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, and `$sample`).
-
-```js
 const discounts = await Discount.aggregate([
   // Will cast the amount to a number, and the timestamp to a date object
   { $match: { expiresAt: { $lt: Date.now() }, amount: '20' } }
