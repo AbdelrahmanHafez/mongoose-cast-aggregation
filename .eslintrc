@@ -33,8 +33,8 @@
     }],
     "max-len": 0,
     "new-cap": [2, {
-      "newIsCapExceptions": ["mongoose", "mongoose.Schema", "mongoose.Types.ObjectId", "Buffer.from"],
-      "capIsNewExceptions": ["Schema", "mongoose.Schema", "mongoose.Types.ObjectId", "MongooseHistoryPlugin", "ObjectId"]
+      "newIsCapExceptions": ["mongoose", "mongoose.Schema", "mongoose.Types.ObjectId"],
+      "capIsNewExceptions": ["Schema", "mongoose.Schema", "mongoose.Types.ObjectId", "ObjectId"]
     }],
     "no-bitwise": 0,
     "no-caller": 2,
@@ -111,15 +111,6 @@
     "node": true,
     "mocha": true,
     "es6": true
-  },
-  "globals": {
-    "CustomError": true,
-    "ValidationError": true,
-    "reportError": true,
-    "Promise": true,
-    "global": true,
-    "require": true,
-    "module": true
   },
   "extends": ["plugin:you-dont-need-lodash-underscore/compatible"]
 }
