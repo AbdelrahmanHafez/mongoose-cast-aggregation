@@ -2,6 +2,11 @@
 
 A mongoose plugin that casts aggregation pipelines whenever possible.
 
+[![Build Status](https://travis-ci.org/AbdelrahmanHafez/mongoose-cast-aggregation.svg?branch=master)](https://travis-ci.org/AbdelrahmanHafez/mongoose-cast-aggregation)
+[![Coverage Status](https://coveralls.io/repos/github/AbdelrahmanHafez/mongoose-cast-aggregation/badge.svg?branch=master)](https://coveralls.io/github/AbdelrahmanHafez/mongoose-cast-aggregation?branch=master)
+
+[![NPM](https://nodei.co/npm/mongoose-cast-aggregation.png)](https://nodei.co/npm/mongoose-cast-aggregation/)
+
 ## Getting Started
 
 
