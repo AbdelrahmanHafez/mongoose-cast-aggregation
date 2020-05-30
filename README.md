@@ -13,14 +13,13 @@ npm install mongoose-cast-aggregation
 Inject the plugin into mongoose:
 ```js
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 const castAggregation = require('mongoose-cast-aggregation');
 
 mongoose.plugin(castAggregation); 
 ```
 
 
-Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, and `$sample`).
+Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, and `$sample`). It also casts `query` on $geoNear stages.
 ```js
 // After injecting the plugin
 const discountSchema = new Schema({

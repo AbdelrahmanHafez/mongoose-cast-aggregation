@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "13"
+  - "12"
+  - "11"
+  - "10"
+  - "9"
+  - "8"
+services:
+  - "mongodb"
+script: "npm run-script test-travis"
+after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
