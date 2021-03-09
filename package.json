@@ -25,9 +25,9 @@
     "url": "git://github.com/AbdelrahmanHafez/mongoose-cast-aggregation.git"
   },
   "devDependencies": {
-    "mocha": "^7.1.1",
+    "mocha": "^8.3.1",
     "mongoose": "^5.9.5",
-    "nyc": "^15.0.1"
+    "nyc": "^15.1.0"
   },
   "peerDependencies": {
     "mongoose": "5.x"
