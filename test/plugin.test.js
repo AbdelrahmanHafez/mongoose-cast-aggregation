@@ -3,8 +3,10 @@ const { Schema } = mongoose;
 const aggregationCastPlugin = require('../index');
 const assert = require('assert');
 
-mongoose.connect('mongodb://127.0.0.1/mongoose_aggregation_cast_test', { useFindAndModify: true, useNewUrlParser: true, useUnifiedTopology: true });
-
+async function connect() {
+  await mongoose.connect('mongodb://127.0.0.1/mongoose_aggregation_cast_test');
+} 
+const connectionPromise = connect()
 
 const userSchema = new Schema({
   expiresAt: Date,
@@ -18,6 +20,7 @@ const User = mongoose.model('User', userSchema);
 describe('aggregationCastPlugin', function () {
 
   this.beforeAll(async function () {
+    await connectionPromise;
     await mongoose.connection.dropDatabase();
   });
 
