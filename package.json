@@ -30,6 +30,6 @@
     "nyc": "^15.1.0"
   },
   "peerDependencies": {
-    "mongoose": "5.x"
+    "mongoose": ">=5.x"
   }
 }
