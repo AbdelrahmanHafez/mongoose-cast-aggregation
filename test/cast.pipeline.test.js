@@ -72,6 +72,54 @@ describe('castPipeline(...)', function () {
       assert.equal(typeof pipeline[0].$match.age, 'number');
       assert.ok(pipeline[1].$match.expiresAt instanceof Date);
     });
+    it('$search', function () {
+      // Arrange
+      const discountSchema = new Schema({
+        expiresAt: Date,
+        age: Number
+      });
+
+      const Discount = mongoose.model('Discount', discountSchema);
+      const expiresAtTimestamp = Date.now();
+      const stringifiedAge = '25';
+
+      const pipeline = [
+        { $search: { age: stringifiedAge } },
+        { $match: { age: stringifiedAge } },
+        { $match: { expiresAt: expiresAtTimestamp } }
+      ];
+
+      // Act
+      castPipeline(Discount, pipeline);
+
+      // Assert
+      assert.equal(typeof pipeline[1].$match.age, 'number');
+      assert.ok(pipeline[2].$match.expiresAt instanceof Date);
+    });
+    it('$searchMeta', () => {
+      // Arrange
+      const discountSchema = new Schema({
+        expiresAt: Date,
+        age: Number
+      });
+
+      const Discount = mongoose.model('Discount', discountSchema);
+      const expiresAtTimestamp = Date.now();
+      const stringifiedAge = '25';
+
+      const pipeline = [
+        { $searchMeta: { age: stringifiedAge } },
+        { $match: { age: stringifiedAge } },
+        { $match: { expiresAt: expiresAtTimestamp } }
+      ];
+
+      // Act
+      castPipeline(Discount, pipeline);
+
+      // Assert
+      assert.equal(typeof pipeline[1].$match.age, 'number');
+      assert.ok(pipeline[2].$match.expiresAt instanceof Date);
+    });
   });
 
   describe('$geoNear', function () {

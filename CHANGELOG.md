@@ -1,3 +1,7 @@
+0.3.0 / 2022-06-30
+===================
+ * fix: allow casting stages after `$search` and `$searchMeta` re #11
+ 
 0.2.1 / 2021-11-15
 ===================
  * fix: use mongoose version >= 5.x instead of a specific version
