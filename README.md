@@ -25,7 +25,7 @@ mongoose.plugin(castAggregation);
 ```
 
 
-Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, and `$sample`). It also casts `query` on $geoNear stages.
+Now mongoose will cast the `$match` stage whenever possible. It casts the `$match` stage as long as no stage before it changed the resulting document shape from the original schema (e.g. `$match`, `$limit`, `$sort`, `$skip`, `$sample`, `$search`, and `$searchMeta`). It also casts `query` on $geoNear stages.
 ```js
 // After injecting the plugin
 const discountSchema = new Schema({
