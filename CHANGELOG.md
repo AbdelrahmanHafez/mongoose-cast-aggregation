@@ -1,4 +1,8 @@
-0.3.0 / 2022-06-30
+0.3.1 / 2022-07-07
+===================
+ * docs: add `$search` and `$searchMeta` to README for NPM homepage.
+
+0.3.0 / 2022-07-06
 ===================
  * fix: allow casting stages after `$search` and `$searchMeta` re #11
  
