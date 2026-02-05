@@ -43,7 +43,13 @@ jobs:
           git push
 
       - name: Publish to npm
-        run: npm publish --provenance --access public
+        run: |
+          if echo "${{ inputs.version }}" | grep -qE '(alpha|beta|rc)'; then
+            TAG=$(echo "${{ inputs.version }}" | sed -E 's/.*-(alpha|beta|rc).*/\1/')
+            npm publish --provenance --access public --tag "$TAG"
+          else
+            npm publish --provenance --access public
+          fi
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
