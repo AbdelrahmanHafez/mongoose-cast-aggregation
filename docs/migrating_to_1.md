@@ -14,11 +14,11 @@ Node.js 18 is the minimum supported version.
 
 ### Rewritten in TypeScript
 
-The entire codebase has been rewritten in TypeScript with full type declarations shipped in the package. Your editor will now provide autocomplete and type checking when using the plugin.
+The codebase has been rewritten in TypeScript.
 
 ### Dual ESM and CommonJS support
 
-The package now ships both ESM and CommonJS builds. Import it however your project is set up:
+The package now ships both ESM and CommonJS builds.
 
 **ESM:**
 
@@ -38,7 +38,7 @@ const castAggregation = require('mongoose-cast-aggregation');
 mongoose.plugin(castAggregation);
 ```
 
-Both produce the same result. The `require()` call returns the plugin function directly, same as v0.x.
+The `require()` call returns the plugin function directly, same as v0.x.
 
 ### Supports mongoose 8.x and 9.x
 
