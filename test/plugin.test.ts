@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { PipelineStage } from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import castAggregationPlugin from '../src/index.js';
 
@@ -28,52 +28,77 @@ describe('castAggregationPlugin', function () {
 
   it('casts first stage when it is $match', async function () {
     // Arrange
-    const { User } = createTestContext();
-    const user = await User.create({ age: '25', expiresAt: Date.now() });
+    const { Product } = createTestContext();
+    const product = await Product.create({ price: 25, listedAt: new Date() });
 
     // Act
-    const results = await User.aggregate([
-      { $match: { _id: user._id.toString(), age: '25' } }
-    ]);
+    const pipeline: PipelineStage[] = [
+      { $match: { _id: product._id.toString(), price: '25' } }
+    ];
+    const results = await Product.aggregate(pipeline);
 
     // Assert
-    expect(results[0]._id.toString()).toBe(user._id.toString());
+    expect(results[0]._id.toString()).toBe(product._id.toString());
   });
 
   it('casts $match after $sort', async function () {
     // Arrange
-    const { User } = createTestContext();
-    const user = await User.create({ age: '25', expiresAt: Date.now() });
+    const { Product } = createTestContext();
+    const product = await Product.create({ price: 25, listedAt: new Date() });
 
     // Act
-    const results = await User.aggregate([
-      { $sort: { age: -1 } },
-      { $match: { _id: user._id.toString(), age: '25' } }
-    ]);
+    const pipeline: PipelineStage[] = [
+      { $sort: { price: -1 } },
+      { $match: { _id: product._id.toString(), price: '25' } }
+    ];
+    const results = await Product.aggregate(pipeline);
 
     // Assert
-    expect(results[0]._id.toString()).toBe(user._id.toString());
+    expect(results[0]._id.toString()).toBe(product._id.toString());
   });
 
   it('casts multiple sequential $match stages', async function () {
     // Arrange
-    const { User } = createTestContext();
-    const user = await User.create({ age: '25', expiresAt: Date.now() });
+    const { Product } = createTestContext();
+    const product = await Product.create({ price: 25, listedAt: new Date() });
 
     // Act
-    const results = await User.aggregate([
-      { $match: { age: '25' } },
-      { $match: { _id: user._id.toString() } }
-    ]);
+    const pipeline: PipelineStage[] = [
+      { $match: { price: '25' } },
+      { $match: { _id: product._id.toString() } }
+    ];
+    const results = await Product.aggregate(pipeline);
 
     // Assert
-    expect(results[0]._id.toString()).toBe(user._id.toString());
+    expect(results[0]._id.toString()).toBe(product._id.toString());
+  });
+
+  it('casts $elemMatch in $match', async function () {
+    // Arrange
+    const { Product } = createTestContext();
+    const authorId = new mongoose.Types.ObjectId();
+    const product = await Product.create({ price: 25, listedAt: new Date(), reviews: [{ rating: 5, authorId }] });
+
+    // Act
+    const pipeline: PipelineStage[] = [
+      { $match: { reviews: { $elemMatch: { rating: '5', authorId: authorId.toString() } } } }
+    ];
+    const results = await Product.aggregate(pipeline);
+
+    // Assert
+    expect(results).toHaveLength(1);
+    expect(results[0]._id.toString()).toBe(product._id.toString());
   });
 
   function createTestContext () {
-    const userSchema = new Schema({ expiresAt: Date, age: Number });
-    userSchema.plugin(castAggregationPlugin);
-    const User = mongoose.model('User', userSchema);
-    return { User };
+    const productSchema = new Schema({
+      price: Number,
+      listedAt: Date,
+      reviews: [{ rating: Number, authorId: Schema.Types.ObjectId }]
+    });
+    productSchema.plugin(castAggregationPlugin);
+    const Product = mongoose.model('Product', productSchema);
+
+    return { Product };
   }
 });

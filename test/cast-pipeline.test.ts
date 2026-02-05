@@ -11,140 +11,157 @@ beforeEach(function () {
 describe('castPipeline(...)', function () {
   it('casts first stage when it is $match', function () {
     // Arrange
-    const { User } = createTestContext();
+    const { Product } = createTestContext();
     const pipeline: PipelineStage[] = [
-      { $match: { _id: new ObjectId().toString(), age: '25' } }
+      { $match: { _id: new ObjectId().toString(), price: '25' } }
     ];
 
     // Act
-    castPipeline(User, pipeline);
+    castPipeline(Product, pipeline);
 
     // Assert
     const stage = pipeline[0] as PipelineStage.Match;
     expect(stage.$match._id).toBeInstanceOf(ObjectId);
-    expect(typeof stage.$match.age).toBe('number');
+    expect(typeof stage.$match.price).toBe('number');
   });
 
   describe('casts $match when it comes after a stage that does not change projection', function () {
     it('$sort', function () {
       // Arrange
-      const { User } = createTestContext();
+      const { Product } = createTestContext();
       const pipeline: PipelineStage[] = [
-        { $sort: { age: -1 } },
-        { $match: { _id: new ObjectId().toString(), age: '25' } }
+        { $sort: { price: -1 } },
+        { $match: { _id: new ObjectId().toString(), price: '25' } }
       ];
 
       // Act
-      castPipeline(User, pipeline);
+      castPipeline(Product, pipeline);
 
       // Assert
       const stage = pipeline[1] as PipelineStage.Match;
       expect(stage.$match._id).toBeInstanceOf(ObjectId);
-      expect(typeof stage.$match.age).toBe('number');
+      expect(typeof stage.$match.price).toBe('number');
     });
 
     it('$match', function () {
       // Arrange
-      const { Discount } = createTestContext();
-      const expiresAtTimestamp = Date.now();
+      const { Product } = createTestContext();
+      const listedAtTimestamp = Date.now();
       const pipeline: PipelineStage[] = [
-        { $match: { age: '25' } },
-        { $match: { expiresAt: expiresAtTimestamp } }
+        { $match: { price: '25' } },
+        { $match: { listedAt: listedAtTimestamp } }
       ];
 
       // Act
-      castPipeline(Discount, pipeline);
+      castPipeline(Product, pipeline);
 
       // Assert
       const first = pipeline[0] as PipelineStage.Match;
       const second = pipeline[1] as PipelineStage.Match;
-      expect(typeof first.$match.age).toBe('number');
-      expect(second.$match.expiresAt).toBeInstanceOf(Date);
+      expect(typeof first.$match.price).toBe('number');
+      expect(second.$match.listedAt).toBeInstanceOf(Date);
     });
 
     it('$search', function () {
       // Arrange
-      const { Discount } = createTestContext();
-      const expiresAtTimestamp = Date.now();
+      const { Product } = createTestContext();
+      const listedAtTimestamp = Date.now();
       const pipeline: PipelineStage[] = [
-        { $search: { index: 'default', text: { query: '25', path: 'age' } } },
-        { $match: { age: '25' } },
-        { $match: { expiresAt: expiresAtTimestamp } }
+        { $search: { index: 'default', text: { query: '25', path: 'price' } } },
+        { $match: { price: '25' } },
+        { $match: { listedAt: listedAtTimestamp } }
       ];
 
       // Act
-      castPipeline(Discount, pipeline);
+      castPipeline(Product, pipeline);
 
       // Assert
       const second = pipeline[1] as PipelineStage.Match;
       const third = pipeline[2] as PipelineStage.Match;
-      expect(typeof second.$match.age).toBe('number');
-      expect(third.$match.expiresAt).toBeInstanceOf(Date);
+      expect(typeof second.$match.price).toBe('number');
+      expect(third.$match.listedAt).toBeInstanceOf(Date);
     });
 
     it('$searchMeta', function () {
       // Arrange
-      const { Discount } = createTestContext();
-      const expiresAtTimestamp = Date.now();
+      const { Product } = createTestContext();
+      const listedAtTimestamp = Date.now();
       const pipeline: PipelineStage[] = [
-        { $searchMeta: { index: 'default', text: { query: '25', path: 'age' } } },
-        { $match: { age: '25' } },
-        { $match: { expiresAt: expiresAtTimestamp } }
+        { $searchMeta: { index: 'default', text: { query: '25', path: 'price' } } },
+        { $match: { price: '25' } },
+        { $match: { listedAt: listedAtTimestamp } }
       ];
 
       // Act
-      castPipeline(Discount, pipeline);
+      castPipeline(Product, pipeline);
 
       // Assert
       const second = pipeline[1] as PipelineStage.Match;
       const third = pipeline[2] as PipelineStage.Match;
-      expect(typeof second.$match.age).toBe('number');
-      expect(third.$match.expiresAt).toBeInstanceOf(Date);
+      expect(typeof second.$match.price).toBe('number');
+      expect(third.$match.listedAt).toBeInstanceOf(Date);
     });
+  });
+
+  it('casts $elemMatch in $match', function () {
+    // Arrange
+    const { Product } = createTestContext();
+    const authorId = new ObjectId();
+    const pipeline: PipelineStage[] = [
+      { $match: { reviews: { $elemMatch: { rating: '5', authorId: authorId.toString() } } } }
+    ];
+
+    // Act
+    castPipeline(Product, pipeline);
+
+    // Assert
+    const stage = pipeline[0] as PipelineStage.Match;
+    const elemMatch = stage.$match.reviews.$elemMatch;
+    expect(typeof elemMatch.rating).toBe('number');
+    expect(elemMatch.authorId).toBeInstanceOf(ObjectId);
   });
 
   describe('$geoNear', function () {
     it('casts query on $geoNear', function () {
       // Arrange
-      const { User } = createTestContext();
+      const { Product } = createTestContext();
       const pipeline: PipelineStage[] = [
-        { $geoNear: { near: { type: 'Point', coordinates: [0, 0] }, distanceField: 'dist', query: { age: '25' } } }
+        { $geoNear: { near: { type: 'Point', coordinates: [0, 0] }, distanceField: 'dist', query: { price: '25' } } }
       ];
 
       // Act
-      castPipeline(User, pipeline);
+      castPipeline(Product, pipeline);
 
       // Assert
       const stage = pipeline[0] as PipelineStage.GeoNear;
-      expect(typeof stage.$geoNear.query!.age).toBe('number');
+      expect(typeof stage.$geoNear.query!.price).toBe('number');
     });
 
     it('stops casting after $geoNear', function () {
       // Arrange
-      const { Discount } = createTestContext();
+      const { Product } = createTestContext();
       const pipeline: PipelineStage[] = [
-        { $geoNear: { near: { type: 'Point', coordinates: [0, 0] }, distanceField: 'dist', query: { amount: '25' } } },
-        { $match: { expiresAt: Date.now() } }
+        { $geoNear: { near: { type: 'Point', coordinates: [0, 0] }, distanceField: 'dist', query: { price: '25' } } },
+        { $match: { listedAt: Date.now() } }
       ];
 
       // Act
-      castPipeline(Discount, pipeline);
+      castPipeline(Product, pipeline);
 
       // Assert
       const geoNear = pipeline[0] as PipelineStage.GeoNear;
       const match = pipeline[1] as PipelineStage.Match;
-      expect(typeof geoNear.$geoNear.query!.amount).toBe('number');
-      expect(typeof match.$match.expiresAt).toBe('number');
+      expect(typeof geoNear.$geoNear.query!.price).toBe('number');
+      expect(typeof match.$match.listedAt).toBe('number');
     });
   });
 
   function createTestContext () {
-    const User = mongoose.model('User', new Schema({ age: Number }));
-    const Discount = mongoose.model('Discount', new Schema({
-      amount: Number,
-      expiresAt: Date,
-      age: Number
+    const Product = mongoose.model('Product', new Schema({
+      price: Number,
+      listedAt: Date,
+      reviews: [{ rating: Number, authorId: Schema.Types.ObjectId }]
     }));
-    return { User, Discount };
+    return { Product };
   }
 });
