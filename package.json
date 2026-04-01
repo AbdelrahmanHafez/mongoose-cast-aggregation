@@ -55,7 +55,7 @@
     "mongodb-memory-server": "^11.0.1",
     "mongoose": "^9.0.0",
     "ts-jest": "^29.4.6",
-    "tsdown": "^0.20.1",
+    "tsdown": "^0.21.7",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
