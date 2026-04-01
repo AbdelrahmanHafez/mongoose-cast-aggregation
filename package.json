@@ -56,7 +56,7 @@
     "mongoose": "^9.0.0",
     "ts-jest": "^29.4.6",
     "tsdown": "^0.20.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "peerDependencies": {
     "mongoose": ">=8.0.0"
